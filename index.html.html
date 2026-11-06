@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAPPY 22ND BIRTHDAY, SITI FARA RISKA! 💗💙</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelpink: '#FFC0D9',
+                        babyblue: '#A9D8F5',
+                        softwhite: '#FFF9FC',
+                        lavender: '#E8D5C4',
+                        lavenderpurple: '#E0C3FC',
+                        hotpink: '#FF69B4',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        fredoka: ['"Fredoka"', 'cursive'],
+                        script: ['"Sacramento"', 'cursive'],
+                    },
+                    animation: {
+                        'float-soft': 'floatSoft 4s ease-in-out infinite',
+                        'flicker-flame': 'flicker 1.5s ease-in-out infinite alternate',
+                        'spin-vinyl': 'spin 8s linear infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'heart-beat': 'heartBeat 1.2s infinite',
+                    },
+                    keyframes: {
+                        floatSoft: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-14px) rotate(2deg)' },
+                        },
+                        flicker: {
+                            '0%': { opacity: '0.8', transform: 'scale(0.95) rotate(-2deg)' },
+                            '100%': { opacity: '1', transform: 'scale(1.2) rotate(3deg)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(255, 192, 217, 0.6)' },
+                            '50%': { boxShadow: '0 0 35px rgba(169, 216, 245, 0.9)' }
+                        },
+                        heartBeat: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.15)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFC0D9 0%, #FFF9FC 45%, #A9D8F5 100%);
+            background-attachment: fixed;
+            color: #2D3748;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 35px -10px rgba(255, 192, 217, 0.5), 0 0 20px rgba(169, 216, 245, 0.4);
+        }
+
+        .card-flip-inner {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .card-flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .candle-flame {
+            background: radial-gradient(ellipse at bottom, #ffffff 0%, #fef08a 35%, #FF69B4 75%, transparent 100%);
+            filter: drop-shadow(0 0 8px #FFC0D9) drop-shadow(0 0 14px #fef08a);
+            transition: all 0.4s ease-out;
+        }
+
+        .candle-flame.extinguished {
+            opacity: 0 !important;
+            transform: scale(0) translateY(-16px) !important;
+        }
+
+        #bg-canvas, #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF9FC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFC0D9;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A9D8F5;
+        }
+    </style>
+</head>
+<body class="relative font-sans antialiased text-slate-800 min-h-screen selection:bg-pastelpink selection:text-slate-900">
+
+    <!-- Background Sparkle & Floating Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    <canvas id="fireworks-canvas" class="z-50"></canvas>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- AUDIO PLAYER FLOATING WIDGET -->
+    <div class="fixed bottom-4 left-4 z-40 glass-card p-3 rounded-full flex items-center gap-3 shadow-xl border-2 border-white">
+        <button id="music-toggle-btn" onclick="toggleMusic()" class="w-10 h-10 rounded-full bg-gradient-to-tr from-pastelpink to-babyblue text-white flex items-center justify-center shadow-md hover:scale-110 transition-transform">
+            <i id="music-icon" class="fa-solid fa-music text-sm"></i>
+        </button>
+        <div class="hidden sm:flex flex-col text-xs pr-2">
+            <span id="now-playing-title" class="font-fredoka font-semibold text-slate-700">Happy Birthday Instrumental</span>
+            <span class="text-[10px] text-pink-500 font-mono">Special Birthday Melody</span>
+        </div>
+        <div class="flex items-center gap-1">
+            <input type="range" id="volume-control" min="0" max="1" step="0.1" value="0.7" onchange="adjustVolume(this.value)" class="w-16 accent-pastelpink cursor-pointer">
+            <label for="custom-audio-upload" class="cursor-pointer text-slate-500 hover:text-pink-500 p-1 text-xs" title="Upload Lagu Sendiri">
+                <i class="fa-solid fa-upload"></i>
+            </label>
+            <input type="file" id="custom-audio-upload" accept="audio/*" onchange="loadCustomAudio(event)" class="hidden">
+        </div>
+    </div>
+
+    <!-- PAGE PROGRESS BAR -->
+    <div id="top-progress-bar" class="fixed top-0 left-0 h-2 bg-gradient-to-r from-pastelpink via-lavenderpurple to-babyblue z-50 transition-all duration-300 w-0"></div>
+
+    <!-- HALAMAN PEMBUKA - OPEN YOUR SURPRISE -->
+    <div id="screen-welcome" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gradient-to-br from-pastelpink via-softwhite to-babyblue backdrop-blur-lg transition-all duration-1000">
+        <div class="max-w-md w-full glass-card p-8 rounded-3xl text-center flex flex-col items-center border-4 border-white shadow-2xl relative overflow-hidden">
+            
+            <div class="animate-float-soft mb-4">
+                <span class="px-4 py-1.5 rounded-full bg-white/90 border border-pastelpink text-pink-500 font-fredoka text-xs uppercase tracking-widest shadow-sm">
+                    ✨ A Magical Birthday Surprise ✨
+                </span>
+            </div>
+
+            <h1 class="text-3xl font-fredoka font-bold text-slate-800 mb-2">
+                HELLO, BEAUTIFUL GIRL! 💗
+            </h1>
+            <p class="text-sm font-sans text-slate-600 mb-1">
+                Someone special is celebrating her 22nd birthday today!
+            </p>
+            <p class="text-xs text-pink-500 font-serif italic mb-6">
+                A little surprise is waiting for you...
+            </p>
+
+            <!-- 3D Interactive Gift Box Visual -->
+            <div id="gift-box-wrapper" onclick="openGiftBox()" class="cursor-pointer group relative w-44 h-44 my-2 flex items-center justify-center transition-transform hover:scale-105">
+                <div class="w-36 h-36 bg-gradient-to-tr from-pink-300 via-pastelpink to-pink-200 rounded-3xl border-4 border-white shadow-2xl relative flex items-center justify-center group-hover:shadow-pink-300/60">
+                    <!-- Ribbon Vertical -->
+                    <div class="absolute inset-y-0 w-8 bg-babyblue border-x-2 border-white shadow-md"></div>
+                    <!-- Ribbon Horizontal -->
+                    <div class="absolute inset-x-0 h-8 bg-babyblue border-y-2 border-white shadow-md"></div>
+                    <!-- Bow Ribbon Top -->
+                    <div class="absolute -top-5 w-16 h-10 bg-babyblue border-2 border-white rounded-full flex items-center justify-center text-white text-lg shadow-lg animate-bounce">
+                        🎀
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="openGiftBox()" class="mt-6 px-8 py-3.5 rounded-full bg-gradient-to-r from-pastelpink via-hotpink to-babyblue text-white font-fredoka font-bold text-sm tracking-wider shadow-lg hover:shadow-pink-400/50 hover:scale-105 active:scale-95 transition-all border-2 border-white flex items-center gap-2">
+                <span>OPEN YOUR GIFT 🎁</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="main-app" class="relative z-10 hidden">
+
+        <!-- STICKY NAVIGATION BAR -->
+        <header class="fixed top-0 left-0 w-full z-40 glass-card border-b border-white/80 px-4 py-3">
+            <div class="max-w-6xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateToSection(0)">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-pastelpink to-babyblue flex items-center justify-center text-white font-fredoka font-bold text-sm shadow-md border border-white">
+                        22
+                    </div>
+                    <span class="font-fredoka font-bold text-slate-800 text-sm hidden sm:inline">SITI FARA RISKA</span>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden lg:flex items-center space-x-1 text-xs font-fredoka font-medium text-slate-600">
+                    <button onclick="navigateToSection(0)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Home</button>
+                    <button onclick="navigateToSection(1)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Birthday Cake</button>
+                    <button onclick="navigateToSection(2)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">22 Wishes</button>
+                    <button onclick="navigateToSection(3)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Surprise Box</button>
+                    <button onclick="navigateToSection(4)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Gallery</button>
+                    <button onclick="navigateToSection(5)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Secret Letter</button>
+                    <button onclick="navigateToSection(6)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Mini Game</button>
+                    <button onclick="navigateToSection(7)" class="nav-btn px-3 py-1.5 rounded-full hover:bg-white hover:text-pink-500 transition-all">Final Surprise</button>
+                </nav>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="prevSection()" class="p-2 rounded-full bg-white text-slate-700 shadow-sm hover:bg-pastelpink hover:text-white transition-all text-xs">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button onclick="nextSection()" class="p-2 rounded-full bg-white text-slate-700 shadow-sm hover:bg-babyblue hover:text-white transition-all text-xs">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="pt-24 pb-20 max-w-5xl mx-auto px-4 space-y-28">
+
+            <!-- SECTION 0: HALAMAN UTAMA - BIRTHDAY CELEBRATION -->
+            <section id="sec-0" class="page-section min-h-[80vh] flex flex-col items-center justify-center text-center">
+                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-card text-pink-500 text-xs font-fredoka font-semibold shadow-sm mb-6 animate-float-soft">
+                    <span>👑</span>
+                    <span>22 YEARS OF BLOOMING & BECOMING</span>
+                    <span>🌸</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-fredoka font-extrabold text-slate-800 leading-tight mb-2">
+                    HAPPY BIRTHDAY! <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-hotpink via-purple-500 to-babyblue font-serif italic">
+                        SITI FARA RISKA
+                    </span>
+                </h1>
+
+                <div class="text-2xl sm:text-4xl font-fredoka font-bold text-babyblue my-2 tracking-widest">
+                    🎈 22 YEARS OLD! 🎂
+                </div>
+
+                <!-- Featured Photo Banner (Using Google Drive Direct Link) -->
+                <div class="my-6 relative max-w-md w-full glass-card p-4 rounded-3xl border-4 border-white shadow-2xl group transform hover:rotate-1 transition-transform">
+                    <div class="aspect-3/4 rounded-2xl overflow-hidden shadow-inner relative bg-pink-100">
+                        <img src="https://lh3.googleusercontent.com/d/1pf_qg8-GHi1xI-o_z_S_JyRkKZMdLsur" alt="Siti Fara Riska" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-3 right-3 text-white text-left font-fredoka">
+                            <span class="bg-hotpink/80 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-wider">Sweet 22 & Graduate 🎓</span>
+                            <p class="text-xs font-sans mt-1 text-slate-100">Siti Fara Riska, A.Md.S.I.AK</p>
+                        </div>
+                    </div>
+                    <!-- Cute Tape Decor -->
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-white/70 backdrop-blur-sm border border-pink-200 rotate-2 shadow-sm rounded-sm"></div>
+                </div>
+
+                <p class="text-sm sm:text-base font-sans text-slate-700 max-w-2xl leading-relaxed glass-card p-6 rounded-3xl border-2 border-white shadow-md">
+                    "Selamat ulang tahun yang ke-22, Siti Fara Riska! Hari ini adalah hari yang spesial untuk seseorang yang juga spesial. Semoga di usia yang baru ini, setiap langkahmu dipenuhi kebahagiaan, setiap impianmu semakin dekat dengan kenyataan, dan setiap harimu selalu memiliki alasan untuk tersenyum. Semoga kamu selalu diberikan kesehatan, keberuntungan, kesuksesan, dan dikelilingi orang-orang yang tulus menyayangimu. Keep shining and keep being wonderful!" 💗
+                </p>
+
+                <div class="mt-8 flex gap-4">
+                    <button onclick="navigateToSection(1)" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-pastelpink to-babyblue text-white font-fredoka font-bold text-xs uppercase tracking-wider shadow-lg hover:scale-105 transition-all">
+                        Lanjut ke Cake Ceremony 🎂
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 1: INTERACTIVE CAKE - MAKE A WISH -->
+            <section id="sec-1" class="page-section min-h-[85vh] flex flex-col items-center justify-center text-center">
+                <div class="glass-card p-6 sm:p-10 rounded-3xl w-full border-4 border-white shadow-2xl relative">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-pink-500 bg-white px-4 py-1.5 rounded-full border border-pink-200">
+                        Interactive Candle Ritual
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-fredoka font-bold text-slate-800 mt-4 mb-2">
+                        MAKE A WISH & BLOW THE CANDLES 🎂
+                    </h2>
+                    <p class="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mb-6">
+                        Terdapat 22 lilin doa di atas kue ulang tahunmu. Tekan tombol <strong class="text-pink-500">MAKE A WISH</strong> lalu tiup lilinnya!
+                    </p>
+
+                    <!-- 3D Layer Cake Visual -->
+                    <div class="relative max-w-md mx-auto my-6 py-6 flex flex-col items-center justify-center">
+                        
+                        <!-- 22 Candles Grid -->
+                        <div id="candles-22-container" class="flex flex-wrap justify-center gap-1.5 max-w-xs mb-1 relative z-20 px-2">
+                            <!-- Injected via JavaScript -->
+                        </div>
+
+                        <!-- Top Cake Tier -->
+                        <div class="w-64 bg-gradient-to-r from-pink-200 via-white to-pink-200 h-16 rounded-t-3xl border-t-4 border-babyblue shadow-md relative flex items-center justify-center border-x-2 border-white">
+                            <span class="text-xs font-serif font-bold text-slate-700 tracking-wider">🌸 SITI FARA RISKA 🌸</span>
+                        </div>
+
+                        <!-- Middle Cake Tier -->
+                        <div class="w-80 bg-gradient-to-r from-babyblue via-softwhite to-babyblue h-20 border-t-2 border-pink-300 shadow-lg relative flex items-center justify-center border-x-2 border-white">
+                            <div class="w-full border-b-4 border-dashed border-pink-300/60"></div>
+                            <span class="absolute font-fredoka font-extrabold text-2xl text-pink-500">22</span>
+                        </div>
+
+                        <!-- Bottom Cake Stand -->
+                        <div class="w-96 bg-white h-6 rounded-b-3xl border-t-2 border-pink-200 shadow-xl border-x-2 border-slate-100"></div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-4 mt-6">
+                        <button onclick="openWishModal()" class="px-7 py-3 rounded-full bg-gradient-to-r from-pastelpink to-hotpink text-white font-fredoka font-bold text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>MAKE A WISH</span>
+                        </button>
+                        <button onclick="blowAllCandles22()" class="px-7 py-3 rounded-full bg-gradient-to-r from-babyblue to-blue-400 text-white font-fredoka font-bold text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-wind"></i>
+                            <span>BLOW THE CANDLES 🌬️</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: 22 WISHES FOR YOU -->
+            <section id="sec-2" class="page-section min-h-[85vh]">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-babyblue bg-white px-4 py-1.5 rounded-full border border-babyblue">
+                        22 Milestone Blessings
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-fredoka font-bold text-slate-800 mt-3 mb-2">
+                        22 WISHES FOR YOU 💗💙
+                    </h2>
+                    <p class="text-slate-600 text-xs sm:text-sm">
+                        Klik setiap kartu interaktif di bawah untuk membuka doa & harapan spesial di usia ke-22.
+                    </p>
+                </div>
+
+                <div id="wishes-22-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- 22 Flip Cards Injected via JS -->
+                </div>
+            </section>
+
+            <!-- SECTION 3: SURPRISE BOX - OPEN THE MYSTERY -->
+            <section id="sec-3" class="page-section min-h-[80vh] text-center">
+                <div class="max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-pink-500 bg-white px-4 py-1.5 rounded-full border border-pink-200">
+                        Interactive Mystery Room
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-fredoka font-bold text-slate-800 mt-3 mb-2">
+                        SURPRISE BOX – OPEN THE MYSTERY 🎁
+                    </h2>
+                    <p class="text-slate-600 text-xs sm:text-sm">
+                        Pilih salah satu dari 3 kotak kejutan di bawah ini untuk membuka rahasia di dalamnya!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <!-- Box 1 -->
+                    <div onclick="openSurpriseBox(1)" class="glass-card p-6 rounded-3xl border-2 border-white cursor-pointer group hover:scale-105 transition-all shadow-xl flex flex-col items-center">
+                        <div class="text-6xl mb-3 group-hover:bounce">🍬</div>
+                        <h3 class="font-fredoka font-bold text-slate-800 text-base mb-1">Sweet Message</h3>
+                        <p class="text-xs text-pink-500 font-mono">Box #1</p>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div onclick="openSurpriseBox(2)" class="glass-card p-6 rounded-3xl border-2 border-white cursor-pointer group hover:scale-105 transition-all shadow-xl flex flex-col items-center">
+                        <div class="text-6xl mb-3 group-hover:bounce">🌟</div>
+                        <h3 class="font-fredoka font-bold text-slate-800 text-base mb-1">Birthday Wishes</h3>
+                        <p class="text-xs text-babyblue font-mono">Box #2</p>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div onclick="openSurpriseBox(3)" class="glass-card p-6 rounded-3xl border-2 border-white cursor-pointer group hover:scale-105 transition-all shadow-xl flex flex-col items-center">
+                        <div class="text-6xl mb-3 group-hover:bounce">👑</div>
+                        <h3 class="font-fredoka font-bold text-slate-800 text-base mb-1">Biggest Surprise</h3>
+                        <p class="text-xs text-purple-500 font-mono">Box #3</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: MEMORY GALLERY -->
+            <section id="sec-4" class="page-section min-h-[85vh]">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+                    <div>
+                        <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-babyblue bg-white px-4 py-1.5 rounded-full border border-babyblue">
+                            Digital Scrapbook
+                        </span>
+                        <h2 class="text-3xl font-fredoka font-bold text-slate-800 mt-2">
+                            MEMORY GALLERY 📸
+                        </h2>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <label for="gallery-photo-input" class="cursor-pointer px-5 py-2.5 rounded-full bg-gradient-to-r from-pastelpink to-babyblue text-white font-fredoka font-bold text-xs uppercase shadow-md hover:scale-105 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Upload Foto Baru</span>
+                        </label>
+                        <input type="file" id="gallery-photo-input" accept="image/*" onchange="uploadMemoryPhoto(event)" class="hidden">
+                    </div>
+                </div>
+
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    
+                    <!-- Preloaded Primary Photo: Graduation Picture -->
+                    <div class="glass-card p-4 rounded-3xl border-2 border-white shadow-lg hover:rotate-1 transition-transform cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1pf_qg8-GHi1xI-o_z_S_JyRkKZMdLsur', 'Graduation & Milestone Triumph 🎓', 'Momen kelulusan gelar A.Md.S.I.AK penuh kebanggaan dan bunga!')">
+                        <div class="aspect-3/4 rounded-2xl overflow-hidden bg-pink-100 mb-3 shadow-inner">
+                            <img src="https://lh3.googleusercontent.com/d/1pf_qg8-GHi1xI-o_z_S_JyRkKZMdLsur" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                        <h4 class="font-fredoka font-bold text-slate-800 text-sm">Graduation Day Victory</h4>
+                        <p class="text-xs text-slate-500">Kebanggaan A.Md.S.I.AK & Usia 22 🎓💐</p>
+                    </div>
+
+                    <!-- Drive Photo 1 -->
+                    <div class="glass-card p-4 rounded-3xl border-2 border-white shadow-lg hover:-rotate-1 transition-transform cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1ughfBhUrDP2S2pGHiYihBBH9WzAjFCYl', 'Sweetest Smile', 'Senyuman hangat dan penuh keceriaan.')">
+                        <div class="aspect-3/4 rounded-2xl overflow-hidden bg-babyblue mb-3 shadow-inner">
+                            <img src="https://lh3.googleusercontent.com/d/1ughfBhUrDP2S2pGHiYihBBH9WzAjFCYl" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                        <h4 class="font-fredoka font-bold text-slate-800 text-sm">Sweetest Memories</h4>
+                        <p class="text-xs text-slate-500">Ceria & Penuh Warna 🌸</p>
+                    </div>
+
+                    <!-- Drive Photo 2 -->
+                    <div class="glass-card p-4 rounded-3xl border-2 border-white shadow-lg hover:rotate-1 transition-transform cursor-pointer" onclick="openLightbox('https://lh3.googleusercontent.com/d/1NQkR7RG19yKArbwf7WFwv2BiUU8fb58w', 'Celebration Vibe', 'Indahnya setiap detik perayaan ulang tahun ke-22.')">
+                        <div class="aspect-3/4 rounded-2xl overflow-hidden bg-purple-100 mb-3 shadow-inner">
+                            <img src="https://lh3.googleusercontent.com/d/1NQkR7RG19yKArbwf7WFwv2BiUU8fb58w" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'">
+                        </div>
+                        <h4 class="font-fredoka font-bold text-slate-800 text-sm">Birthday Joy</h4>
+                        <p class="text-xs text-slate-500">Penuh Cinta & Harapan ✨</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 5: SECRET LETTER (SUDAH DIPERBAIKI TAMPILAN DAN SPASINYA) -->
+            <section id="sec-5" class="page-section min-h-[85vh] flex flex-col items-center justify-center text-center">
+                <div class="max-w-2xl w-full">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-pink-500 bg-white px-4 py-1.5 rounded-full border border-pink-200 mb-4 inline-block">
+                        Personal Note
+                    </span>
+                    <h2 class="text-3xl font-fredoka font-bold text-slate-800 mb-6">
+                        SECRET LETTER 💌
+                    </h2>
+
+                    <!-- Envelope Digital Box -->
+                    <div id="envelope-box" onclick="openSecretLetter()" class="cursor-pointer glass-card p-8 sm:p-12 rounded-3xl border-4 border-white shadow-2xl relative group hover:scale-105 transition-all">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-pastelpink to-babyblue text-white mx-auto flex items-center justify-center text-3xl shadow-md mb-4 border-2 border-white">
+                            💌
+                        </div>
+                        <span class="font-fredoka font-bold text-xl text-slate-800 block">A LETTER JUST FOR YOU 💌</span>
+                        <p class="text-xs text-pink-500 font-serif italic mt-2">Ketuk amplop di sini untuk membuka surat rahasia</p>
+                    </div>
+
+                    <!-- Secret Letter Content Box (Rapi, Ber-spasi, dan Pas Wadah) -->
+                    <div id="letter-content-box" class="hidden glass-card p-6 sm:p-10 rounded-3xl border-4 border-white shadow-2xl text-left text-slate-700 font-sans leading-relaxed text-sm sm:text-base relative mt-4 space-y-4 max-w-2xl mx-auto overflow-hidden">
+                        
+                        <div id="letter-paragraphs" class="space-y-4 font-medium text-slate-700 leading-relaxed tracking-normal">
+                            <!-- Injected HTML dengan paragraf ber-spasi rapi via JavaScript -->
+                        </div>
+
+                        <div class="mt-8 pt-4 border-t border-pink-200 text-right font-script text-3xl text-pink-500">
+                            With lots of love! 💗
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: MINI GAME - CATCH 22 HEARTS (SUDAH DIPERBAIKI AGAR BISA DIMAINKAN) -->
+            <section id="sec-6" class="page-section min-h-[85vh] text-center">
+                <div class="max-w-2xl mx-auto mb-6">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-babyblue bg-white px-4 py-1.5 rounded-full border border-babyblue">
+                        Interactive Game
+                    </span>
+                    <h2 class="text-3xl font-fredoka font-bold text-slate-800 mt-2 mb-1">
+                        CATCH 22 HEARTS 💗💙
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600">
+                        Klik atau sentuh 22 hati yang jatuh dari atas layar sebelum waktu habis!
+                    </p>
+                </div>
+
+                <div class="glass-card p-4 sm:p-6 rounded-3xl border-4 border-white shadow-2xl max-w-xl mx-auto relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-3 px-4 font-fredoka">
+                        <div class="text-sm sm:text-base">Skor: <span id="game-score" class="text-pink-500 font-bold text-xl">0</span> / 22</div>
+                        <div class="text-sm sm:text-base">Waktu: <span id="game-timer" class="text-babyblue font-bold text-xl">30</span>s</div>
+                    </div>
+
+                    <!-- Game Container / Canvas -->
+                    <div id="game-canvas-wrapper" class="relative w-full h-80 bg-gradient-to-b from-pink-50 to-blue-50 rounded-2xl border-2 border-pink-200 overflow-hidden cursor-pointer select-none">
+                        <canvas id="game-canvas" class="w-full h-full block"></canvas>
+                        <div id="game-overlay-msg" class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-xs text-slate-700 font-fredoka font-bold text-base p-4 text-center">
+                            Klik tombol "Mulai Permainan" di bawah untuk bermain! 🎮
+                        </div>
+                    </div>
+
+                    <button id="start-game-btn" onclick="startGame22()" class="mt-4 px-8 py-3.5 rounded-full bg-gradient-to-r from-pastelpink to-babyblue text-white font-fredoka font-bold text-xs uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all">
+                        🎮 Mulai Permainan Tangkap Hati
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 7: FINAL SURPRISE -->
+            <section id="sec-7" class="page-section min-h-[85vh] flex flex-col items-center justify-center text-center">
+                <div class="glass-card p-8 sm:p-12 rounded-3xl max-w-2xl w-full border-4 border-white shadow-2xl relative overflow-hidden">
+                    <span class="text-xs font-fredoka font-bold uppercase tracking-widest text-pink-500 bg-white px-4 py-1.5 rounded-full border border-pink-200 mb-4 inline-block">
+                        Grand Finale Celebration
+                    </span>
+
+                    <h3 class="text-xl font-fredoka font-bold text-babyblue uppercase tracking-wider mb-1">ONCE AGAIN...</h3>
+                    <h1 class="text-4xl sm:text-5xl font-fredoka font-extrabold text-slate-800 mb-1">
+                        HAPPY 22ND BIRTHDAY!
+                    </h1>
+                    <h2 class="text-2xl sm:text-3xl font-serif italic font-bold text-pink-500 mb-6">
+                        SITI FARA RISKA! 💗💙
+                    </h2>
+
+                    <div class="p-6 rounded-2xl bg-white/80 border border-pink-200 shadow-inner text-slate-700 font-sans text-sm leading-relaxed text-center mb-8">
+                        "May your 22nd year be filled with endless happiness, beautiful memories, wonderful opportunities, and dreams that finally come true.<br><br>
+                        <strong>Never stop smiling. Never stop dreaming. Never stop being YOU.</strong><br><br>
+                        <span class="text-pink-500 font-fredoka text-lg">YOU DESERVE THE WORLD! HAPPY BIRTHDAY! 🎂</span>"
+                    </div>
+
+                    <button onclick="replaySurpriseSequence()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-pastelpink via-purple-400 to-babyblue text-white font-fredoka font-bold text-xs uppercase tracking-wider shadow-xl hover:scale-105 transition-all border-2 border-white flex items-center gap-2 mx-auto">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>REPLAY YOUR SURPRISE 🎁</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- GENERAL MODAL CONTAINER -->
+    <div id="general-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-all">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 border-4 border-pink-200 shadow-2xl relative text-center">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-pink-100 text-pink-500 hover:bg-pink-200 flex items-center justify-center text-sm font-bold">✕</button>
+            <div id="modal-content" class="pt-2"></div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md" onclick="closeLightbox()">
+        <div class="max-w-xl w-full bg-white p-4 rounded-3xl shadow-2xl border-2 border-white text-center" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" class="w-full h-80 object-cover rounded-2xl mb-4">
+            <h3 id="lightbox-title" class="font-fredoka font-bold text-xl text-slate-800"></h3>
+            <p id="lightbox-desc" class="text-xs text-slate-600 mt-1"></p>
+            <button onclick="closeLightbox()" class="mt-4 px-6 py-2 rounded-full bg-pink-100 text-pink-600 font-fredoka font-bold text-xs uppercase">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSectionIdx = 0;
+        const totalSections = 8;
+
+        function showToast(msg, icon = '✨') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'glass-card px-4 py-3 rounded-2xl text-xs font-fredoka font-semibold text-slate-800 shadow-lg border-2 border-white flex items-center gap-2 animate-bounce pointer-events-auto';
+            toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        function closeModal() {
+            document.getElementById('general-modal').classList.add('hidden');
+        }
+
+        function updateProgressBar() {
+            const pct = ((currentSectionIdx + 1) / totalSections) * 100;
+            document.getElementById('top-progress-bar').style.width = `${pct}%`;
+        }
+
+        function navigateToSection(idx) {
+            currentSectionIdx = idx;
+            const el = document.getElementById(`sec-${idx}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+            updateProgressBar();
+        }
+
+        function nextSection() {
+            if (currentSectionIdx < totalSections - 1) {
+                navigateToSection(currentSectionIdx + 1);
+            }
+        }
+
+        function prevSection() {
+            if (currentSectionIdx > 0) {
+                navigateToSection(currentSectionIdx - 1);
+            }
+        }
+
+        function openGiftBox() {
+            playChimeSound();
+            triggerFireworksShower();
+            showToast("Hadiah Terbuka! Selamat Ulang Tahun Siti Fara Riska!", "🎁");
+
+            const welcomeScreen = document.getElementById('screen-welcome');
+            welcomeScreen.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                welcomeScreen.classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+                initAppModules();
+                navigateToSection(0);
+            }, 800);
+        }
+
+        function initAppModules() {
+            initBackgroundParticles();
+            renderCandles22();
+            renderWishes22();
+            initGameCanvas();
+            updateProgressBar();
+        }
+
+        function renderCandles22() {
+            const container = document.getElementById('candles-22-container');
+            if (!container) return;
+            container.innerHTML = '';
+            for (let i = 1; i <= 22; i++) {
+                const wrap = document.createElement('div');
+                wrap.className = "flex flex-col items-center cursor-pointer group";
+                wrap.onclick = () => blowSingleCandle(i);
+                wrap.innerHTML = `
+                    <div id="flame-22-${i}" class="candle-flame w-3 h-4 rounded-full animate-flicker-flame mb-0.5"></div>
+                    <div class="w-2 h-7 bg-gradient-to-b from-pink-200 via-babyblue to-white rounded-t-sm shadow-sm"></div>
+                `;
+                container.appendChild(wrap);
+            }
+        }
+
+        function blowSingleCandle(idx) {
+            const flame = document.getElementById(`flame-22-${idx}`);
+            if (flame && !flame.classList.contains('extinguished')) {
+                flame.classList.add('extinguished');
+                playPuffSound();
+            }
+        }
+
+        function blowAllCandles22() {
+            playPuffSound();
+            for (let i = 1; i <= 22; i++) {
+                setTimeout(() => {
+                    const flame = document.getElementById(`flame-22-${i}`);
+                    if (flame) flame.classList.add('extinguished');
+                }, i * 30);
+            }
+            setTimeout(() => {
+                triggerFireworksShower();
+                const modal = document.getElementById('modal-content');
+                modal.innerHTML = `
+                    <span class="text-5xl block mb-2">🎉🎂</span>
+                    <h3 class="font-fredoka font-bold text-2xl text-slate-800 mb-2">MAY ALL YOUR WISHES COME TRUE!</h3>
+                    <p class="text-xs text-slate-600">Semua 22 lilin telah ditiup! Semoga seluruh impian Siti Fara Riska di usia 22 tahun ini terkabul sempurna.</p>
+                `;
+                document.getElementById('general-modal').classList.remove('hidden');
+            }, 800);
+        }
+
+        function openWishModal() {
+            const modal = document.getElementById('modal-content');
+            modal.innerHTML = `
+                <span class="text-4xl block mb-2">✨🕯️</span>
+                <h3 class="font-fredoka font-bold text-xl text-slate-800 mb-2">Make a Wish</h3>
+                <p class="text-sm text-pink-500 font-serif italic mb-4">"Close your eyes and make your biggest wish..."</p>
+                <button onclick="closeModal()" class="px-6 py-2 rounded-full bg-pink-500 text-white font-fredoka font-bold text-xs uppercase shadow-md">Siap Meniup Lilin 🌬️</button>
+            `;
+            document.getElementById('general-modal').classList.remove('hidden');
+        }
+
+        const WISHES_DATA = [
+            "Happiness", "Good Health", "Endless Love", "Success",
+            "Beautiful Memories", "Amazing Opportunities", "Inner Peace", "Confidence",
+            "Financial Blessings", "Beautiful Future", "True Friendship", "Courage",
+            "Endless Smiles", "Great Achievements", "Wonderful Experiences", "Strength",
+            "Self Love", "New Adventures", "Dreams Come True", "Positive Energy",
+            "More Blessings", "A Lifetime of Happiness"
+        ];
+
+        function renderWishes22() {
+            const grid = document.getElementById('wishes-22-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            WISHES_DATA.forEach((title, idx) => {
+                const card = document.createElement('div');
+                card.className = "cursor-pointer h-28 perspective select-none";
+                card.onclick = () => { card.classList.toggle('card-flipped'); playChimeSound(); };
+                card.innerHTML = `
+                    <div class="card-flip-inner relative w-full h-full rounded-2xl shadow-md border-2 border-white">
+                        <div class="card-front absolute inset-0 bg-gradient-to-tr from-pastelpink to-babyblue rounded-2xl p-3 flex flex-col items-center justify-center text-center">
+                            <span class="text-lg mb-1">🎁</span>
+                            <span class="font-fredoka font-bold text-xs text-slate-800">Wish #${idx+1}</span>
+                        </div>
+                        <div class="card-back absolute inset-0 bg-white rounded-2xl p-3 flex flex-col items-center justify-center text-center border-2 border-pink-200">
+                            <span class="font-fredoka font-bold text-xs text-pink-500">${title}</span>
+                            <span class="text-[9px] text-slate-400 mt-1 font-sans">Special Wish #22</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openSurpriseBox(num) {
+            playChimeSound();
+            const modal = document.getElementById('modal-content');
+            if (num === 1) {
+                modal.innerHTML = `
+                    <span class="text-4xl block mb-2">🍬</span>
+                    <h3 class="font-fredoka font-bold text-xl text-slate-800 mb-2">Sweet Message</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed font-sans">"Siti Fara, senyumanmu membawa kehangatan bagi siapa pun di sekitarmu. Tetaplah menjadi pribadi yang manis, tulus, dan penuh energi positif!"</p>
+                `;
+            } else if (num === 2) {
+                modal.innerHTML = `
+                    <span class="text-4xl block mb-2">🌟</span>
+                    <h3 class="font-fredoka font-bold text-xl text-slate-800 mb-2">Birthday Wishes</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed font-sans">"Semoga di usia 22 tahun ini, setiap pintu kesempatan baru terbuka lebar, kariermu melonjak tinggi, dan dikelilingi sahabat sejati!"</p>
+                `;
+            } else {
+                triggerFireworksShower();
+                modal.innerHTML = `
+                    <span class="text-4xl block mb-2">👑💐</span>
+                    <h3 class="font-fredoka font-bold text-xl text-pink-500 mb-2">Biggest Surprise!</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed font-sans">"Selamat atas gelar A.Md.S.I.AK & Ulang Tahun Ke-22! Kamu adalah sosok yang sangat istimewa dan layak mendapatkan yang terbaik di dunia!"</p>
+                `;
+            }
+            document.getElementById('general-modal').classList.remove('hidden');
+        }
+
+        function openLightbox(src, title, desc) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-title').innerText = title;
+            document.getElementById('lightbox-desc').innerText = desc;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        function uploadMemoryPhoto(evt) {
+            const file = evt.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const grid = document.getElementById('gallery-grid');
+                const card = document.createElement('div');
+                card.className = "glass-card p-4 rounded-3xl border-2 border-white shadow-lg hover:rotate-1 transition-transform cursor-pointer";
+                card.onclick = () => openLightbox(e.target.result, 'Custom Memory Photo', 'Foto momen kenangan pribadi Siti Fara Riska.');
+                card.innerHTML = `
+                    <div class="aspect-3/4 rounded-2xl overflow-hidden bg-pink-100 mb-3 shadow-inner">
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-fredoka font-bold text-slate-800 text-sm">New Memory Moment</h4>
+                    <p class="text-xs text-slate-500">Momen Indah Disimpan 🌸</p>
+                `;
+                grid.insertBefore(card, grid.children[1]);
+                showToast("Foto berhasil ditambahkan ke Galeri!", "📸");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // SECRET LETTER PARAGRAPHS - Diberikan spasi yang jelas antar paragraf dan kata
+        const SECRET_LETTER_PARAGRAPHS = [
+            "Dear Siti Fara Riska,",
+            "Happy 22nd Birthday! 🎉",
+            "Di hari istimewamu ini, ada satu hal yang ingin disampaikan: jangan pernah lupa bahwa dirimu sangat berharga.",
+            "Tidak perlu membandingkan perjalananmu dengan orang lain. Nikmati setiap proses, rayakan setiap pencapaian kecil, dan jangan takut untuk bermimpi besar.",
+            "Semoga tahun ini membawa banyak cerita indah, kesempatan baru, kebahagiaan, dan hal-hal yang selama ini kamu harapkan.",
+            "Teruslah tersenyum, teruslah bersinar, dan jadilah versi terbaik dari dirimu sendiri.",
+            "You are special, you are wonderful, and you deserve the best things in life. ✨"
+        ];
+
+        function openSecretLetter() {
+            playChimeSound();
+            document.getElementById('envelope-box').classList.add('hidden');
+            const box = document.getElementById('letter-content-box');
+            box.classList.remove('hidden');
+
+            const container = document.getElementById('letter-paragraphs');
+            container.innerHTML = '';
+
+            let paragraphIndex = 0;
+
+            function typeParagraph() {
+                if (paragraphIndex >= SECRET_LETTER_PARAGRAPHS.length) return;
+
+                const p = document.createElement('p');
+                p.className = "mb-4 text-slate-700 leading-relaxed font-medium";
+                container.appendChild(p);
+
+                const currentText = SECRET_LETTER_PARAGRAPHS[paragraphIndex];
+                let charIndex = 0;
+
+                const timer = setInterval(() => {
+                    p.textContent += currentText[charIndex];
+                    charIndex++;
+                    if (charIndex >= currentText.length) {
+                        clearInterval(timer);
+                        paragraphIndex++;
+                        setTimeout(typeParagraph, 250);
+                    }
+                }, 25);
+            }
+
+            typeParagraph();
+        }
+
+        // MINI GAME LOGIC & CANVAS RENDERING FIX
+        let gameState = { active: false, score: 0, timer: 30, timerId: null, hearts: [], animId: null };
+
+        function initGameCanvas() {
+            const canvas = document.getElementById('game-canvas');
+            if (!canvas) return;
+            const wrapper = document.getElementById('game-canvas-wrapper');
+            canvas.width = wrapper.clientWidth || 500;
+            canvas.height = wrapper.clientHeight || 320;
+        }
+
+        function startGame22() {
+            initGameCanvas();
+            const canvas = document.getElementById('game-canvas');
+            const ctx = canvas.getContext('2d');
+            const overlay = document.getElementById('game-overlay-msg');
+            if (overlay) overlay.style.display = 'none';
+
+            gameState.active = true;
+            gameState.score = 0;
+            gameState.timer = 30;
+            gameState.hearts = [];
+
+            document.getElementById('game-score').innerText = '0';
+            document.getElementById('game-timer').innerText = '30';
+
+            if (gameState.timerId) clearInterval(gameState.timerId);
+            if (gameState.animId) cancelAnimationFrame(gameState.animId);
+
+            gameState.timerId = setInterval(() => {
+                gameState.timer--;
+                document.getElementById('game-timer').innerText = gameState.timer;
+                if (gameState.timer <= 0) {
+                    endGame22(false);
+                }
+            }, 1000);
+
+            // Click & Touch Event handling
+            const handleInteract = (e) => {
+                if (!gameState.active) return;
+                const rect = canvas.getBoundingClientRect();
+                const clickX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const clickY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+                for (let i = gameState.hearts.length - 1; i >= 0; i--) {
+                    const h = gameState.hearts[i];
+                    const dist = Math.hypot(h.x - clickX, h.y - clickY);
+                    if (dist < h.radius + 15) {
+                        gameState.score++;
+                        document.getElementById('game-score').innerText = gameState.score;
+                        gameState.hearts.splice(i, 1);
+                        playPuffSound();
+
+                        if (gameState.score >= 22) {
+                            endGame22(true);
+                        }
+                        break;
+                    }
+                }
+            };
+
+            canvas.onclick = handleInteract;
+
+            function gameLoop() {
+                if (!gameState.active) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Spawn new hearts
+                if (Math.random() < 0.07 && gameState.hearts.length < 8) {
+                    gameState.hearts.push({
+                        x: Math.random() * (canvas.width - 40) + 20,
+                        y: -20,
+                        speed: Math.random() * 2 + 1.5,
+                        size: Math.random() * 10 + 24,
+                        radius: 20,
+                        color: Math.random() > 0.5 ? '💗' : '💙'
+                    });
+                }
+
+                // Render hearts
+                for (let i = gameState.hearts.length - 1; i >= 0; i--) {
+                    const h = gameState.hearts[i];
+                    h.y += h.speed;
+
+                    ctx.font = `${h.size}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(h.color, h.x, h.y);
+
+                    if (h.y > canvas.height + 30) {
+                        gameState.hearts.splice(i, 1);
+                    }
+                }
+
+                gameState.animId = requestAnimationFrame(gameLoop);
+            }
+            gameLoop();
+        }
+
+        function endGame22(victory = false) {
+            gameState.active = false;
+            if (gameState.timerId) clearInterval(gameState.timerId);
+            if (gameState.animId) cancelAnimationFrame(gameState.animId);
+
+            const modal = document.getElementById('modal-content');
+            if (victory || gameState.score >= 22) {
+                triggerFireworksShower();
+                modal.innerHTML = `
+                    <span class="text-5xl block mb-2">🎉💗</span>
+                    <h3 class="font-fredoka font-bold text-xl text-pink-500 mb-2">SELAMAT! KAMU MENANG!</h3>
+                    <p class="text-xs text-slate-700 leading-relaxed font-sans font-bold">Kamu berhasil menangkap 22 Hati Doa untuk Siti Fara Riska di ulang tahunnya yang ke-22! 💗💙</p>
+                `;
+            } else {
+                modal.innerHTML = `
+                    <span class="text-4xl block mb-2">🎈</span>
+                    <h3 class="font-fredoka font-bold text-lg text-slate-800 mb-1">Permainan Selesai</h3>
+                    <p class="text-xs text-slate-600 mb-4">Kamu berhasil menangkap ${gameState.score} hati!</p>
+                    <button onclick="startGame22(); closeModal();" class="px-6 py-2.5 rounded-full bg-pink-500 text-white font-fredoka font-bold text-xs uppercase shadow-md hover:scale-105">Coba Lagi 🎮</button>
+                `;
+            }
+            document.getElementById('general-modal').classList.remove('hidden');
+        }
+
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let musicTimer = null;
+
+        function initAudioEngine() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function toggleMusic() {
+            initAudioEngine();
+            isMusicPlaying = !isMusicPlaying;
+            const btn = document.getElementById('music-toggle-btn');
+            if (isMusicPlaying) {
+                btn.classList.add('animate-spin-vinyl');
+                startSynthMelody();
+            } else {
+                btn.classList.remove('animate-spin-vinyl');
+                clearInterval(musicTimer);
+            }
+        }
+
+        function startSynthMelody() {
+            clearInterval(musicTimer);
+            const notes = [261.63, 261.63, 293.66, 261.63, 349.23, 329.63, 261.63, 261.63, 293.66, 261.63, 392.00, 349.23];
+            let idx = 0;
+            musicTimer = setInterval(() => {
+                if (!isMusicPlaying) return;
+                try {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(notes[idx % notes.length], audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.8);
+                } catch(e) {}
+                idx++;
+            }, 500);
+        }
+
+        function adjustVolume(val) {}
+
+        function loadCustomAudio(evt) {
+            const file = evt.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            const audio = new Audio(url);
+            audio.play();
+            showToast(`Memutar: ${file.name}`, "🎵");
+        }
+
+        function playPuffSound() {
+            try {
+                initAudioEngine();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } catch(e) {}
+        }
+
+        function playChimeSound() {
+            try {
+                initAudioEngine();
+                [523.25, 659.25, 783.99].forEach((f, i) => {
+                    setTimeout(() => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+                        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + 0.5);
+                    }, i * 90);
+                });
+            } catch(e) {}
+        }
+
+        let particles = [];
+        function initBackgroundParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 4 + 2,
+                    color: ['rgba(255, 192, 217, 0.5)', 'rgba(169, 216, 245, 0.5)', 'rgba(255, 255, 255, 0.7)'][Math.floor(Math.random() * 3)],
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        function triggerFireworksShower() {
+            playChimeSound();
+            const canvas = document.getElementById('fireworks-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let fw = [];
+            for (let i = 0; i < 40; i++) {
+                fw.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: (Math.random() - 0.5) * 8,
+                    radius: Math.random() * 4 + 2,
+                    color: ['#FF69B4', '#A9D8F5', '#FFC0D9', '#FFD700'][Math.floor(Math.random() * 4)],
+                    life: 50
+                });
+            }
+
+            function drawFw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                fw.forEach((p, idx) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life--;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+
+                    if (p.life <= 0) fw.splice(idx, 1);
+                });
+                if (fw.length > 0) requestAnimationFrame(drawFw);
+            }
+            drawFw();
+        }
+
+        function replaySurpriseSequence() {
+            const welcomeScreen = document.getElementById('screen-welcome');
+            welcomeScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+            document.getElementById('main-app').classList.add('hidden');
+            document.getElementById('envelope-box').classList.remove('hidden');
+            document.getElementById('letter-content-box').classList.add('hidden');
+            renderCandles22();
+        }
+
+        window.addEventListener('resize', () => {
+            if (gameState.active) initGameCanvas();
+        });
+    </script>
+</body>
+</html>
